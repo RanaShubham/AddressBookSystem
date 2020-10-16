@@ -1,8 +1,18 @@
 package AddressBookSystem;
 
 public class AddressBookSystem {
-
-	public static void main(String[] args) 
+	
+	//AddressBook fields
+	String firstName;
+	String lastName;
+	String address;
+	String city;
+	String state;
+	String email;
+	int zip;
+	int phoneNumber;
+		
+		public static void main(String[] args) 
 	{
 		System.out.println("Welcome to address book system program");
 	}
