@@ -59,8 +59,11 @@ public class AddressBookSystem {
 					String nameToEdit = input.next();
 					editRecord(nameToEdit);
 					break;
-					
-			case 3: break;
+			case 2: System.out.println("Enter first name of the person whose record you want to delete");
+					String nameToDelete = input.next();
+			 		deleteRecord(nameToDelete);
+			 		break;
+			case 3: System.exit(0);
 		}
 		
 	}
@@ -107,6 +110,12 @@ public class AddressBookSystem {
 	private static void addRecord(Map<String,AddressBookSystem> record, String firstName, String lastName, String address, String city, String state, String email, int pin, long phoneNumber)
 	{
 		record.put(firstName,new AddressBookSystem(firstName, lastName, address, city, state, email, pin, phoneNumber));
+	}
+	
+	//Deleting a record using first name
+	private static void deleteRecord(String nameToDelete) 
+	{
+		AddressBook1.remove(nameToDelete);
 	}
 	
 	
