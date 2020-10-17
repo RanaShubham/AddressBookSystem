@@ -33,44 +33,65 @@ public class AddressBookSystem {
 	
 	static Scanner input = new Scanner (System.in);
 	
-	//Initializing an AddressBook
-	static Map<String,AddressBookSystem> AddressBook1 = new HashMap<String,AddressBookSystem>();
+	/**Initializing an Address book collection to store multiple address books.
+	Address book collection is of type hash map. This hash map stores name of the address book and the address book as value in form of inner hash map.
+	The inner hash map (Or the address book) contains the list of objects of type AddressBookSystem as value and the first name of the person as key.
+	 */
+	static Map<String, HashMap<String, AddressBookSystem>> AddressBookCollection = new HashMap<String, HashMap<String, AddressBookSystem>>();
 	
 	//Main method
 	public static void main(String[] args) 
 	{
 		System.out.println("Welcome to address book system program");
-		collectDetails();
-		moreOptions();
+		Options();
 		input.close();
+		System.out.println("CHECKING: "+AddressBookCollection.get(book).get(shubham));
 	}
 
 	//To display and execute more options for the address book
-	private static void moreOptions() 
+	private static void Options() 
 	{
-		System.out.println("Select more options");
-		System.out.println("Enter 1 to edit a record"
-				+ "\nEnter 3 to exit");
+		System.out.println("Select an option\n"+
+				  "Enter 1 to edit a record\n"+
+				  "Enter 2 to delete a record\n"+
+				  "Enter 3 to add new record\n"+
+				  "Enter 4 to exit");
 		int response = input.nextInt();
 		
 		switch (response)
 		{
-			case 1: System.out.println("Enter the first name of the person whose record you want to edit");
+			case 1: System.out.println("Enter the name fo the record you want to edit\n"
+					+ "and then Enter the first name of the person whose record you want to edit");
+					String recordToEdit = input.next();
 					String nameToEdit = input.next();
-					editRecord(nameToEdit);
+					editRecord(nameToEdit,recordToEdit);
 					break;
-			case 2: System.out.println("Enter first name of the person whose record you want to delete");
+			case 2: System.out.println("Enter name of the record you want to delete record in\n"
+					+ "and then Enter first name of the person whose record you want to delete");
+					String recordToDeleteIn = input.next();
 					String nameToDelete = input.next();
-			 		deleteRecord(nameToDelete);
+			 		deleteRecord(nameToDelete,recordToDeleteIn);
 			 		break;
-			case 3: System.exit(0);
+			case 3: System.out.println("Enter name of the record you want to create");
+			 		String recordName = input.next();
+			 		createRecord(recordName);
+			 		break;
+			case 4: System.exit(0);
 		}
 		
 	}
 
 
+	private static void createRecord(String recordName) 
+	{
+		AddressBookCollection.put(recordName, new HashMap<String,AddressBookSystem>());
+		
+		//Asking details for the record with name recordName
+		collectDetails(recordName);
+	}
+
 	//Asking user for details of the record to be added
-	private static void collectDetails()
+	private static void collectDetails(String recordName)
 	{
 		while(true)
 		{
@@ -93,7 +114,7 @@ public class AddressBookSystem {
 			int pin = input.nextInt();
 			long phoneNumber = input.nextLong();
 	
-			addRecord(AddressBook1, firstName, lastName, address, city, state, email, pin, phoneNumber);
+			addRecord(AddressBookCollection.get(recordName), firstName, lastName, address, city, state, email, pin, phoneNumber);
 			
 			System.out.println("Enter y to add one more person record. Otherwise enter n.");
 			String response = input.next();
@@ -113,16 +134,16 @@ public class AddressBookSystem {
 	}
 	
 	//Deleting a record using first name
-	private static void deleteRecord(String nameToDelete) 
+	private static void deleteRecord(String nameToDelete, String recordToDeleteIn) 
 	{
-		AddressBook1.remove(nameToDelete);
+		AddressBookCollection.get(recordToDeleteIn).remove(nameToDelete);
 	}
 	
 	
 	//Editing a record using first name
-	private static void editRecord(String nameToEdit)
+	private static void editRecord(String nameToEdit, String recordToEdit)
 	{
-		AddressBookSystem recordToEdit = AddressBook1.get(nameToEdit);
+		AddressBookSystem record = (AddressBookSystem) AddressBookCollection.get(recordToEdit).get(nameToEdit);
 		
 		System.out.println("Pick a feild to edit"+
 				"Enter 1 to edit firstName\n" + 
@@ -138,21 +159,21 @@ public class AddressBookSystem {
 		
 		switch(response)
 		{
-			case 1: editFirstname(recordToEdit);
+			case 1: editFirstname(record);
 					break;
-			case 2: editLastname(recordToEdit);
+			case 2: editLastname(record);
 					break;
-			case 3: editAddress(recordToEdit);
+			case 3: editAddress(record);
 					break;
-			case 4: editCity(recordToEdit);
+			case 4: editCity(record);
 					break;
-			case 5: editState(recordToEdit);
+			case 5: editState(record);
 					break;
-			case 6: editEmail(recordToEdit);
+			case 6: editEmail(record);
 					break;
-			case 7: editPin(recordToEdit);
+			case 7: editPin(record);
 					break;
-			case 8: editPhoneNumber(recordToEdit);
+			case 8: editPhoneNumber(record);
 					break;
 		}
 	}
