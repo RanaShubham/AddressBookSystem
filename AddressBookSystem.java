@@ -45,7 +45,6 @@ public class AddressBookSystem {
 		System.out.println("Welcome to address book system program");
 		Options();
 		input.close();
-		System.out.println("CHECKING: "+AddressBookCollection.get(book).get(shubham));
 	}
 
 	//To display and execute more options for the address book
