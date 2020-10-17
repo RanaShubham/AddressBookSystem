@@ -1,7 +1,9 @@
 package AddressBookSystem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookSystem {
@@ -29,17 +31,42 @@ public class AddressBookSystem {
 		this.phoneNumber = phoneNumber;
 	}
 	
-	//Initializing an AddressBook
-	static List<AddressBookSystem> AddressBook1 = new ArrayList<AddressBookSystem>();
+	static Scanner input = new Scanner (System.in);
 	
+	//Initializing an AddressBook
+	static Map<String,AddressBookSystem> AddressBook1 = new HashMap<String,AddressBookSystem>();
+	
+	//Main method
 	public static void main(String[] args) 
 	{
 		System.out.println("Welcome to address book system program");
-		collectDetails();			
+		collectDetails();
+		moreOptions();
+		input.close();
 	}
 
-	
-	//Asking user for details
+	//To display and execute more options for the address book
+	private static void moreOptions() 
+	{
+		System.out.println("Select more options");
+		System.out.println("Enter 1 to edit a record"
+				+ "\nEnter 3 to exit");
+		int response = input.nextInt();
+		
+		switch (response)
+		{
+			case 1: System.out.println("Enter the first name of the person whose record you want to edit");
+					String nameToEdit = input.next();
+					editRecord(nameToEdit);
+					break;
+					
+			case 3: break;
+		}
+		
+	}
+
+
+	//Asking user for details of the record to be added
 	private static void collectDetails()
 	{
 		while(true)
@@ -53,9 +80,7 @@ public class AddressBookSystem {
 				+ "\n6. email"
 				+ "\n7. Pincode"
 				+ "\n8. Phone number");
-			
-			Scanner input = new Scanner (System.in);
-			
+						
 			String firstName = input.next();
 			String lastName = input.next();
 			String address = input.next();
@@ -65,14 +90,13 @@ public class AddressBookSystem {
 			int pin = input.nextInt();
 			long phoneNumber = input.nextLong();
 	
-			addContact(AddressBook1, firstName, lastName, address, city, state, email, pin, phoneNumber);
+			addRecord(AddressBook1, firstName, lastName, address, city, state, email, pin, phoneNumber);
 			
 			System.out.println("Enter y to add one more person record. Otherwise enter n.");
 			String response = input.next();
 			
 			if (response.equals("n"))
 			{
-				input.close();
 				break;
 			}
 		}
@@ -80,9 +104,122 @@ public class AddressBookSystem {
 		
 
 	//Adding person details into address book.
-	private static void addContact(List book, String firstName, String lastName, String address, String city, String state, String email, int pin, long phoneNumber)
+	private static void addRecord(Map<String,AddressBookSystem> record, String firstName, String lastName, String address, String city, String state, String email, int pin, long phoneNumber)
 	{
-		book.add(new AddressBookSystem(firstName, lastName, address, city, state, email, pin, phoneNumber));
+		record.put(firstName,new AddressBookSystem(firstName, lastName, address, city, state, email, pin, phoneNumber));
 	}
+	
+	
+	//Editing a record using first name
+	private static void editRecord(String nameToEdit)
+	{
+		AddressBookSystem recordToEdit = AddressBook1.get(nameToEdit);
 		
+		System.out.println("Pick a feild to edit"+
+				"Enter 1 to edit firstName\n" + 
+				"Enter 2 to edit lastName\n" + 
+				"Enter 3 to edit address\n" + 
+				"Enter 4 to edit city\n" + 
+				"Enter 5 to edit state\n" + 
+				"Enter 6 to edit email\n" +
+				"Enter 7 to edit pin\n" +
+				"Enter 8 to edit phoneNumber");
+		
+		int response = input.nextInt();
+		
+		switch(response)
+		{
+			case 1: editFirstname(recordToEdit);
+					break;
+			case 2: editLastname(recordToEdit);
+					break;
+			case 3: editAddress(recordToEdit);
+					break;
+			case 4: editCity(recordToEdit);
+					break;
+			case 5: editState(recordToEdit);
+					break;
+			case 6: editEmail(recordToEdit);
+					break;
+			case 7: editPin(recordToEdit);
+					break;
+			case 8: editPhoneNumber(recordToEdit);
+					break;
+		}
+	}
+
+	//To change pin of existing record
+	private static void editPin(AddressBookSystem recordToEdit) 
+	{
+		System.out.println("Enter new zip number");
+		int response = input.nextInt();
+		
+		recordToEdit.zip = response;		
+	}
+
+	//To change last name of existing record
+	private static void editLastname(AddressBookSystem recordToEdit) 
+	{
+		System.out.println("Enter new last name");
+		String response = input.next();
+		
+		recordToEdit.lastName = response;
+	}
+
+	//To change phone number of existing record
+	private static void editPhoneNumber(AddressBookSystem recordToEdit) 
+	{
+		System.out.println("Enter new phone number");
+		long response = input.nextLong();
+		
+		recordToEdit.phoneNumber = response;
+	}
+
+	//To change email of existing record
+	private static void editEmail(AddressBookSystem recordToEdit) 
+	{
+		System.out.println("Enter new email");
+		String response = input.next();
+		
+		recordToEdit.email = response;
+	}
+
+	//To change state name of existing record
+	private static void editState(AddressBookSystem recordToEdit) 
+	{
+		System.out.println("Enter new state");
+		String response = input.next();
+		
+		recordToEdit.state = response;		
+	}
+
+	//To change city name of existing record
+	private static void editCity(AddressBookSystem recordToEdit) 
+	{
+
+		System.out.println("Enter new city");
+		String response = input.next();
+		
+		recordToEdit.city = response;
+	}
+
+	//To change address of existing record
+	private static void editAddress(AddressBookSystem recordToEdit) 
+	{
+		System.out.println("Enter new address");
+		String response = input.next();
+		
+		recordToEdit.address = response;		
+	}
+
+	//To change first name of existing record
+	private static void editFirstname(AddressBookSystem recordToEdit) 
+	{
+		System.out.println("Enter new firstName");
+		String response = input.next();
+		
+		recordToEdit.firstName = response;
+	}
+	
+
 }
